@@ -1,0 +1,102 @@
+openapi: 3.0.2
+info:
+  title: go-honeygain
+  version: "1.0"
+servers:
+- url: https://dashboard.honeygain.com/api/v1
+paths:
+  /referrals:
+    get:
+      description: Fetches information about the user's referrals
+      responses:
+        "200":
+          description: OK
+  /transactions:
+    get:
+      description: Fetches information about the user's transactions
+      responses:
+        "200":
+          description: OK
+  /devices/{deviceId}:
+    delete:
+      description: Deletes a device (ie. move it into Removed Devices)
+      parameters:
+      - description: The device that needs to be fetched
+        explode: false
+        in: path
+        name: deviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+    patch:
+      description: Restores a device from Removed Devices
+      parameters:
+      - description: The device that needs to be fetched
+        explode: false
+        in: path
+        name: deviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+  /dashboards/traffic_stats:
+    get:
+      description: fetches information about traffic
+      responses:
+        "200":
+          description: OK
+  /users/balances:
+    get:
+      description: fetches information about the current user's balances
+      responses:
+        "200":
+          description: OK
+  /users/tos:
+    get:
+      description: fetch information about current user's terms of service status
+      responses:
+        "200":
+          description: OK
+  /users/tokens:
+    post:
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Auth'
+        description: Requests an authorization token used in the header from Honeygain
+      responses:
+        "200":
+          description: OK
+      summary: Requests an authorization token
+  /users/me:
+    get:
+      description: fetch information about the currenet users
+      responses:
+        "200":
+          description: OK
+  /users/passwords:
+    put:
+      description: Changes the password of the current user
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Auth:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      type: object
